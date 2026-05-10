@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Happy Birthday! | Rainbow Celebration</title>
+    <title>Happy Birthday! | Admin Settings</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -264,7 +264,86 @@
         @keyframes candleFlicker { from{transform:scaleX(1)} to{transform:scaleX(0.95)} }
         @keyframes flameFlicker { from{transform:translateX(-50%) scaleY(1)} to{transform:translateX(-50%) scaleY(1.1)} }
         
-        /* ===== RAINBOW BANNER - NO YELLOW BACKGROUND ===== */
+        /* PORTRAIT GALLERY */
+        .portrait-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin: 20px 0 10px 0;
+            padding: 15px;
+            min-height: 220px;
+            perspective: 1000px;
+        }
+        
+        .portrait-card {
+            position: relative;
+            width: 130px;
+            height: 150px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(145deg, #fff8f0, #ffe4f0);
+            animation: rotateIn 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .portrait-card:nth-child(1) { animation-delay: 0.1s; }
+        .portrait-card:nth-child(2) { animation-delay: 0.3s; }
+        .portrait-card:nth-child(3) { animation-delay: 0.5s; }
+        
+        @keyframes rotateIn {
+            0% { opacity: 0; transform: rotateY(-30deg) scale(0.8); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+        
+        .portrait-card:hover {
+            transform: translateY(-15px) rotate(2deg) scale(1.08);
+            box-shadow: 0 25px 45px rgba(194, 24, 91, 0.4);
+            z-index: 20;
+        }
+        
+        .portrait-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .portrait-card:hover .portrait-img { transform: scale(1.1); }
+        
+        .portrait-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(194,24,91,0.9), transparent);
+            color: white;
+            padding: 8px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .portrait-card:hover .portrait-caption { transform: translateY(0); }
+        
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+            color: white;
+            font-size: 2.5rem;
+        }
+        
         .rainbow-banner {
             position: fixed;
             top: 12%;
@@ -284,159 +363,14 @@
             color: transparent;
             animation: rainbowShift 3s ease infinite, bannerFloat 0.8s ease-out;
             text-shadow: 0 0 20px rgba(255,255,255,0.5);
-            letter-spacing: 3px;
         }
         
-        @keyframes rainbowShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes rainbowShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes bannerFloat { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.8); } 30% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
         
-        @keyframes bannerFloat {
-            0% { opacity: 0; transform: translate(-50%, -30%) scale(0.8); }
-            30% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-        
-        /* ===== ROTATING PHOTO GALLERY - 3 PHOTOS WITH ROTATION ANIMATION ===== */
-        .portrait-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-            margin: 20px 0;
-            padding: 15px;
-            min-height: 220px;
-            perspective: 1000px;
-        }
-        
-        .portrait-card {
-            position: relative;
-            width: 130px;
-            height: 150px;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: linear-gradient(145deg, #fff8f0, #ffe4f0);
-            animation: rotateIn 0.8s ease forwards;
-            opacity: 0;
-            transform: rotateY(-15deg) translateZ(0);
-        }
-        
-        .portrait-card:nth-child(1) { 
-            animation-delay: 0.1s;
-            transform-origin: center;
-        }
-        .portrait-card:nth-child(2) { 
-            animation-delay: 0.3s;
-            transform-origin: center;
-        }
-        .portrait-card:nth-child(3) { 
-            animation-delay: 0.5s;
-            transform-origin: center;
-        }
-        
-        @keyframes rotateIn {
-            0% { 
-                opacity: 0; 
-                transform: rotateY(-30deg) translateZ(-50px) scale(0.8);
-            }
-            100% { 
-                opacity: 1; 
-                transform: rotateY(0deg) translateZ(0) scale(1);
-            }
-        }
-        
-        .portrait-card:hover {
-            transform: translateY(-15px) rotate(2deg) scale(1.08);
-            box-shadow: 0 25px 45px rgba(194, 24, 91, 0.4);
-            z-index: 20;
-        }
-        
-        .portrait-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .portrait-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .portrait-card:hover .portrait-img {
-            transform: scale(1.1);
-        }
-        
-        .portrait-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(194,24,91,0.9), transparent);
-            color: white;
-            padding: 8px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            text-align: center;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 1px;
-        }
-        
-        .portrait-card:hover .portrait-caption {
-            transform: translateY(0);
-        }
-        
-        .photo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f8bbd0, #f48fb1);
-            color: white;
-            font-size: 2.5rem;
-        }
-        
-        .photo-placeholder span {
-            font-size: 0.75rem;
-            margin-top: 8px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .lightbox { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.92); 
-            z-index: 1000; 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: zoom-out; 
-            backdrop-filter: blur(8px); 
-        }
-        .lightbox.active { display: flex; animation: fadeInLight 0.3s ease; }
-        @keyframes fadeInLight { from { opacity:0; } to { opacity:1; } }
-        .lightbox img { max-width: 85%; max-height: 85%; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); transform: scale(0.95); animation: zoomIn 0.4s cubic-bezier(0.2,0.9,0.4,1.1) forwards; }
-        @keyframes zoomIn { to { transform: scale(1); } }
+        .lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.92); z-index:1000; display:none; align-items:center; justify-content:center; cursor:zoom-out; backdrop-filter:blur(8px); }
+        .lightbox.active { display:flex; }
+        .lightbox img { max-width:85%; max-height:85%; border-radius:20px; }
         
         .game-win-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); backdrop-filter:blur(4px); z-index:50; display:none; align-items:center; justify-content:center; }
         .game-win-overlay.active { display:flex; }
@@ -458,24 +392,10 @@
             transition: opacity 1s ease, visibility 1s ease;
         }
         .opening-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .opening-gift {
-            font-size: 6rem;
-            cursor: pointer;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
-            transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
-        }
+        .opening-gift { font-size: 6rem; cursor: pointer; transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1); }
         
-        .massive-confetti {
-            position: fixed;
-            pointer-events: none;
-            z-index: 30;
-            font-size: 1.2rem;
-            animation: confettiRain 2.5s linear forwards;
-        }
-        @keyframes confettiRain {
-            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
+        .massive-confetti { position: fixed; pointer-events: none; z-index: 30; font-size: 1.2rem; animation: confettiRain 2.5s linear forwards; }
+        @keyframes confettiRain { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         
         .auto-toggle-btn {
             position: fixed;
@@ -498,15 +418,68 @@
             gap: 8px;
         }
         .auto-toggle-btn:hover { transform: scale(1.02); background: rgba(255,255,255,0.7); }
-        .auto-toggle-btn.active { background: #c2185b; color: white; border-color: white; }
+        .auto-toggle-btn.active { background: #c2185b; color: white; }
         
-        #musicControls { position: fixed; bottom: 20px; right: 20px; z-index: 200; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; padding: 8px 16px; display: flex; gap: 8px; }
+        /* SETTINGS GEAR */
+        .settings-gear {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 200;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(194,24,91,0.3);
+            border-radius: 50px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+        .settings-gear:hover { transform: rotate(30deg) scale(1.05); background: rgba(255,255,255,0.7); }
+        
+        /* ADMIN MODAL */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-modal.active { display: flex; }
+        .admin-panel {
+            background: white;
+            border-radius: 32px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        .admin-title { font-family: 'Pacifico', cursive; font-size: 1.8rem; color: #c2185b; text-align: center; margin-bottom: 20px; }
+        .password-input { width: 100%; padding: 12px; border: 2px solid #f48fb1; border-radius: 16px; font-size: 1rem; margin-bottom: 15px; font-family: 'Poppins', sans-serif; }
+        .admin-section { margin-bottom: 20px; border-top: 1px solid #ffe0f0; padding-top: 15px; }
+        .admin-label { font-weight: 600; color: #880e4f; margin-bottom: 8px; display: block; }
+        .admin-textarea { width: 100%; padding: 10px; border: 2px solid #f8bbd0; border-radius: 16px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; resize: vertical; }
+        .save-btn { background: linear-gradient(135deg, #ec407a, #d81b60); color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; }
+        .close-btn { background: #ccc; margin-top: 10px; }
+        
+        #musicControls { position: fixed; bottom: 20px; right: 80px; z-index: 200; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; padding: 8px 16px; display: flex; gap: 8px; }
         
         @media (max-width: 600px) {
-            .rainbow-banner { font-size: 1.8rem; white-space: normal; width: 90%; text-align: center; top: 10%; }
+            .rainbow-banner { font-size: 1.8rem; white-space: normal; width: 90%; top: 10%; }
             .portrait-card { width: 100px; height: 115px; }
-            .auto-toggle-btn { font-size: 0.7rem; padding: 6px 14px; }
-            .slide-title { font-size: 1.7rem; }
+            .admin-panel { padding: 20px; }
         }
     </style>
 </head>
@@ -523,13 +496,13 @@
     <div class="falling-container" id="fallingContainer"></div>
 
     <div class="main-content">
-        <div class="slide active" id="slide1"><div class="card"><div class="card-content"><div class="slide-icon">✨</div><h2 class="slide-title">Simply Amazing</h2><p class="slide-text">You have a heart of gold and a spirit that shines so bright. <strong>Your kindness</strong> touches everyone around you. You are truly one of a kind!</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot active" data-slide="1"></div><div class="dot" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
-        <div class="slide" id="slide2"><div class="card"><div class="card-content"><div class="slide-icon">🌟</div><h2 class="slide-title">A True Role Model</h2><p class="slide-text">You inspire us every single day with your <strong>strength, grace, and determination</strong>.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot active" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
-        <div class="slide" id="slide3"><div class="card"><div class="card-content"><div class="slide-icon">💝</div><h2 class="slide-title">Happy & Kind Soul</h2><p class="slide-text">Your <strong>happiness is contagious</strong> — it spreads like sunshine wherever you go.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot active" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
-        <div class="slide" id="slide4"><div class="card"><div class="card-content"><div class="slide-icon">👵💐</div><h2 class="slide-title">Respectful & Caring</h2><p class="slide-text">The way you treat <strong>elders with such respect and care</strong> speaks volumes.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot active" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
-        <div class="slide" id="slide5"><div class="card"><div class="card-content"><div class="slide-icon">💼</div><h2 class="slide-title">Truly Professional</h2><p class="slide-text">Your <strong>professionalism</strong> sets the bar high. You bring excellence and integrity to everything.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot visited" data-slide="4"></div><div class="dot active" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide active" id="slide1"><div class="card"><div class="card-content"><div class="slide-icon">✨</div><h2 class="slide-title">Simply Amazing</h2><p class="slide-text" id="slide1Text">You have a heart of gold and a spirit that shines so bright. <strong>Your kindness</strong> touches everyone around you. You are truly one of a kind!</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot active" data-slide="1"></div><div class="dot" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide" id="slide2"><div class="card"><div class="card-content"><div class="slide-icon">🌟</div><h2 class="slide-title">A True Role Model</h2><p class="slide-text" id="slide2Text">You inspire us every single day with your <strong>strength, grace, and determination</strong>. The way you handle challenges shows what true leadership looks like.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot active" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide" id="slide3"><div class="card"><div class="card-content"><div class="slide-icon">💝</div><h2 class="slide-title">Happy & Kind Soul</h2><p class="slide-text" id="slide3Text">Your <strong>happiness is contagious</strong> — it spreads like sunshine wherever you go. And your kindness warms hearts and makes the world better.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot active" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide" id="slide4"><div class="card"><div class="card-content"><div class="slide-icon">👵💐</div><h2 class="slide-title">Respectful & Caring</h2><p class="slide-text" id="slide4Text">The way you treat <strong>elders with such respect and care</strong> speaks volumes. You listen with patience, help with a gentle heart.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot active" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide" id="slide5"><div class="card"><div class="card-content"><div class="slide-icon">💼</div><h2 class="slide-title">Truly Professional</h2><p class="slide-text" id="slide5Text">Your <strong>professionalism</strong> sets the bar high. You bring excellence and integrity to everything, balanced with warmth and humanity.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot visited" data-slide="4"></div><div class="dot active" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         
-        <div class="slide final-slide" id="slide6"><div class="card"><div class="card-content"><div class="slide-icon cake-emoji">🎂</div><h2 class="slide-title">Happy Birthday!</h2><div class="candle-container"><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div></div><div class="portrait-gallery" id="portraitGallery"></div><p class="final-wish">Wishing you the <strong>very best</strong> of everything! May your days be filled with <strong>joy, love, and countless blessings</strong>. 🎉🎈💐</p></div></div><div style="display:flex; gap:12px; margin-top:20px;"><button class="game-btn" onclick="showGame(); event.stopPropagation();">🎮 Play Game</button></div><div class="tap-hint"><span>✨ Infinite Love ✨</span><span class="arrow">🎂</span></div></div>
+        <div class="slide final-slide" id="slide6"><div class="card"><div class="card-content"><div class="slide-icon cake-emoji">🎂</div><h2 class="slide-title" id="slide6Title">Happy Birthday!</h2><div class="candle-container"><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div></div><div class="portrait-gallery" id="portraitGallery"></div><p class="final-wish" id="slide6Text">Wishing you the <strong>very best</strong> of everything! May your days be filled with <strong>joy, love, and countless blessings</strong>. 🎉🎈💐</p></div></div><div style="display:flex; gap:12px; margin-top:20px;"><button class="game-btn" onclick="showGame(); event.stopPropagation();">🎮 Play Game</button></div><div class="tap-hint"><span>✨ Infinite Love ✨</span><span class="arrow">🎂</span></div></div>
 
         <div class="game-container" id="gameContainer"><div class="game-card"><h2 class="game-title">Caring Match</h2><p class="game-subtitle">Match the caring actions for our elders! 💕</p><div class="game-stats"><div class="stat-box"><div class="stat-label">Moves</div><div class="stat-value" id="moveCount">0</div></div><div class="stat-box"><div class="stat-label">Matched</div><div class="stat-value" id="matchCount">0/6</div></div><div class="stat-box"><div class="stat-label">Time</div><div class="stat-value" id="timer">0s</div></div></div><div class="game-message" id="gameMessage">Find matching pairs!</div><div class="game-grid" id="gameGrid"></div><button class="game-btn" id="restartBtn" onclick="restartGame()">🔄 Restart Game</button></div></div>
         <div class="ranking-container" id="rankingContainer"><div class="ranking-card"><h2 class="game-title">Wall of Fame</h2><p class="game-subtitle">Fastest Caring Hands! 🏆</p><div class="ranking-list" id="rankingList"></div><button class="game-btn" onclick="continueToFinal()">Proceed to Birthday Surprise ✨</button></div></div>
@@ -542,7 +515,50 @@
         <span id="toggleIcon">▶️</span> <span id="toggleText">Auto: ON</span>
     </div>
     
+    <div class="settings-gear" id="settingsGear">⚙️</div>
+    
     <div id="musicControls"><span id="musicIcon">🔇</span><input type="range" id="volumeSlider" min="0" max="100" value="35"></div>
+    
+    <!-- ADMIN MODAL -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-panel">
+            <div class="admin-title">⚙️ Admin Settings</div>
+            <input type="password" id="adminPassword" class="password-input" placeholder="Enter admin password" autocomplete="off">
+            <button id="unlockBtn" class="game-btn" style="width:100%; margin-bottom:15px;">Unlock</button>
+            <div id="adminContent" style="display:none;">
+                <div class="admin-section">
+                    <label class="admin-label">Slide 1 Message</label>
+                    <textarea id="editSlide1" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 2 Message</label>
+                    <textarea id="editSlide2" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 3 Message</label>
+                    <textarea id="editSlide3" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 4 Message</label>
+                    <textarea id="editSlide4" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 5 Message</label>
+                    <textarea id="editSlide5" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 6 Title</label>
+                    <input type="text" id="editSlide6Title" class="admin-textarea" style="height:auto;">
+                </div>
+                <div class="admin-section">
+                    <label class="admin-label">Slide 6 Message (birthday wish)</label>
+                    <textarea id="editSlide6Text" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <button id="saveSettingsBtn" class="save-btn">💾 Save All Changes</button>
+                <button id="closeAdminBtn" class="save-btn close-btn" style="background:#999;">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ========== GLOBAL STATE ==========
@@ -615,13 +631,11 @@
             }, 500);
         }
         
-        // Gift celebration with RAINBOW banner (no yellow background)
+        // Gift celebration
         function triggerGiftCelebration() {
             const gift = document.getElementById('openingGift');
             gift.style.transform = 'scale(1.9)';
             setTimeout(() => { gift.style.transform = 'scale(1)'; }, 500);
-            
-            // Massive confetti
             for(let i=0; i<280; i++) {
                 setTimeout(() => {
                     const conf = document.createElement('div');
@@ -638,8 +652,6 @@
                     setTimeout(() => conf.remove(), 2800);
                 }, i * 12);
             }
-            
-            // Extra floating balloons and stars
             for(let s=0; s<60; s++) {
                 setTimeout(() => {
                     const star = document.createElement('div');
@@ -651,8 +663,6 @@
                     setTimeout(()=>star.remove(),7000);
                 }, s*40);
             }
-            
-            // Create RAINBOW animated banner (no background)
             removeRainbowBanner();
             rainbowBanner = document.createElement('div');
             rainbowBanner.className = 'rainbow-banner';
@@ -698,63 +708,117 @@
             }, 2000);
         }
         
-        // ===== PORTRAIT LOADER - 3 PHOTOS (photo1.jpg, photo2.jpg, photo3.jpg) WITH ROTATION ANIMATION =====
+        // Load 3 photos
         async function loadPortraits() {
             const gallery = document.getElementById('portraitGallery');
             gallery.innerHTML = '';
-            
             const photoFiles = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg'];
             const portraitFolder = 'portrait/';
-            let loadedCount = 0;
             const captions = ['✨ Beautiful Memory ✨', '💖 Special Moment 💖', '🎀 Cherished Time 🎀'];
             
             for(let i = 0; i < photoFiles.length; i++) {
                 const imgPath = portraitFolder + photoFiles[i];
                 const testImg = new Image();
-                testImg.onload = () => {
+                const createCard = (src, isPlaceholder) => {
                     const card = document.createElement('div');
                     card.className = 'portrait-card';
-                    const img = document.createElement('img');
-                    img.src = imgPath;
-                    img.className = 'portrait-img';
-                    img.alt = `Birthday memory ${i+1}`;
+                    if(isPlaceholder) {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'photo-placeholder';
+                        const icons = ['📸', '🎀', '💝'];
+                        placeholder.innerHTML = `${icons[i]}<span>${photoFiles[i]}</span>`;
+                        card.appendChild(placeholder);
+                        card.addEventListener('click', () => alert(`📷 Please add "${photoFiles[i]}" inside the "portrait/" folder`));
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = src;
+                        img.className = 'portrait-img';
+                        card.appendChild(img);
+                        card.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            document.getElementById('lightboxImg').src = src;
+                            document.getElementById('lightbox').classList.add('active');
+                        });
+                    }
                     const caption = document.createElement('div');
                     caption.className = 'portrait-caption';
-                    caption.textContent = captions[i % captions.length];
-                    card.appendChild(img);
+                    caption.textContent = captions[i];
                     card.appendChild(caption);
-                    card.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        document.getElementById('lightboxImg').src = imgPath;
-                        document.getElementById('lightbox').classList.add('active');
-                    });
                     gallery.appendChild(card);
-                    loadedCount++;
                 };
-                testImg.onerror = () => {
-                    // Elegant placeholder if image not found
-                    const card = document.createElement('div');
-                    card.className = 'portrait-card';
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'photo-placeholder';
-                    const icons = ['📸', '🎀', '💝'];
-                    placeholder.innerHTML = `${icons[i]}<span>${photoFiles[i]}</span>`;
-                    const caption = document.createElement('div');
-                    caption.className = 'portrait-caption';
-                    caption.textContent = `✨ Add ${photoFiles[i]} ✨`;
-                    card.appendChild(placeholder);
-                    card.appendChild(caption);
-                    card.addEventListener('click', () => {
-                        alert(`📷 Please add "${photoFiles[i]}" inside the "portrait/" folder to see this beautiful memory!`);
-                    });
-                    gallery.appendChild(card);
-                    loadedCount++;
-                };
+                testImg.onload = () => createCard(imgPath, false);
+                testImg.onerror = () => createCard(null, true);
                 testImg.src = imgPath;
             }
         }
         
-        // Game logic (full working)
+        // ========== ADMIN SETTINGS ==========
+        const adminModal = document.getElementById('adminModal');
+        const settingsGear = document.getElementById('settingsGear');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const adminPassword = document.getElementById('adminPassword');
+        const adminContent = document.getElementById('adminContent');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const closeAdminBtn = document.getElementById('closeAdminBtn');
+        
+        // Load current messages into edit fields
+        function loadMessagesToEditor() {
+            document.getElementById('editSlide1').value = document.getElementById('slide1Text').innerHTML;
+            document.getElementById('editSlide2').value = document.getElementById('slide2Text').innerHTML;
+            document.getElementById('editSlide3').value = document.getElementById('slide3Text').innerHTML;
+            document.getElementById('editSlide4').value = document.getElementById('slide4Text').innerHTML;
+            document.getElementById('editSlide5').value = document.getElementById('slide5Text').innerHTML;
+            document.getElementById('editSlide6Title').value = document.getElementById('slide6Title').innerHTML;
+            document.getElementById('editSlide6Text').value = document.getElementById('slide6Text').innerHTML;
+        }
+        
+        // Save edited messages
+        function saveMessages() {
+            document.getElementById('slide1Text').innerHTML = document.getElementById('editSlide1').value;
+            document.getElementById('slide2Text').innerHTML = document.getElementById('editSlide2').value;
+            document.getElementById('slide3Text').innerHTML = document.getElementById('editSlide3').value;
+            document.getElementById('slide4Text').innerHTML = document.getElementById('editSlide4').value;
+            document.getElementById('slide5Text').innerHTML = document.getElementById('editSlide5').value;
+            document.getElementById('slide6Title').innerHTML = document.getElementById('editSlide6Title').value;
+            document.getElementById('slide6Text').innerHTML = document.getElementById('editSlide6Text').value;
+            alert('✅ All messages updated successfully!');
+            adminModal.classList.remove('active');
+            adminContent.style.display = 'none';
+            adminPassword.value = '';
+        }
+        
+        settingsGear.addEventListener('click', () => {
+            adminModal.classList.add('active');
+            adminContent.style.display = 'none';
+            adminPassword.value = '';
+        });
+        
+        unlockBtn.addEventListener('click', () => {
+            if(adminPassword.value === 'dadadex11') {
+                loadMessagesToEditor();
+                adminContent.style.display = 'block';
+                adminPassword.value = '';
+            } else {
+                alert('❌ Incorrect password! Access denied.');
+            }
+        });
+        
+        saveSettingsBtn.addEventListener('click', saveMessages);
+        closeAdminBtn.addEventListener('click', () => {
+            adminModal.classList.remove('active');
+            adminContent.style.display = 'none';
+            adminPassword.value = '';
+        });
+        
+        adminModal.addEventListener('click', (e) => {
+            if(e.target === adminModal) {
+                adminModal.classList.remove('active');
+                adminContent.style.display = 'none';
+                adminPassword.value = '';
+            }
+        });
+        
+        // Game logic
         const gameItems = [{emoji:'👵',label:'Grandma'},{emoji:'👴',label:'Grandpa'},{emoji:'🍵',label:'Tea'},{emoji:'🤝',label:'Help'},{emoji:'💊',label:'Medicine'},{emoji:'📖',label:'Story'},{emoji:'👵',label:'Grandma'},{emoji:'👴',label:'Grandpa'},{emoji:'🍵',label:'Tea'},{emoji:'🤝',label:'Help'},{emoji:'💊',label:'Medicine'},{emoji:'📖',label:'Story'}];
         let flippedCards=[], matchedPairs=0, moves=0, gameTimer=0, timerInterval=null, gameStarted=false;
         function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
