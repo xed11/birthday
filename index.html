@@ -195,11 +195,11 @@
             50% { transform: scale(1.15); opacity: 1; }
         }
         .slide-photo {
-            width: 100px;
-            height: 100px;
+            width: 185px;
+            height: 185px;
             border-radius: 50%;
             object-fit: cover;
-            object-position: center 30%;
+            object-position: center 28%;
             border: 3px solid rgba(255,255,255,0.6);
             box-shadow: 0 8px 20px rgba(194,24,91,0.25);
             transition: transform 0.3s ease;
@@ -210,6 +210,10 @@
         }
         .slide-photo-wrap:active .slide-photo {
             transform: scale(0.95);
+        }
+
+        #slide2 .slide-photo {
+            object-position: center 20%;
         }
 
         .slide-icon {
@@ -349,8 +353,8 @@
         
         .portrait-card {
             position: relative;
-            width: 110px;
-            height: 125px;
+            width: 165px;
+            height: 185px;
             border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
@@ -383,6 +387,10 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.4s ease;
+        }
+
+        .portrait-card:nth-child(2) .portrait-img {
+            object-position: center top;
         }
         
         .portrait-card:hover .portrait-img {
@@ -514,12 +522,12 @@
         
         @media (max-width: 600px) {
             .rainbow-banner { font-size: 1.6rem; white-space: normal; width: 90%; top: 10%; }
-            .portrait-card { width: 85px; height: 95px; }
-            .portrait-gallery { gap: 12px; }
+            .portrait-card { width: clamp(120px, 34vw, 135px); height: clamp(135px, 38vw, 152px); }
+            .portrait-gallery { justify-content: flex-start; gap: 12px; margin: 14px 0 8px 0; padding: 12px 8px; }
             .final-slide .slide-title { font-size: 1.5rem; }
             .slide-text, .final-wish { font-size: 0.95rem; }
             #musicControls { right: 75px; }
-            .slide-photo { width: 80px; height: 80px; }
+            .slide-photo { width: clamp(135px, 42vw, 155px); height: clamp(135px, 42vw, 155px); object-position: center 28%; }
             .slide-photo-wrap .zoom-icon { width: 22px; height: 22px; font-size: 0.65rem; bottom: 1px; right: 1px; }
             .card { padding: 30px 18px; }
             .slide-icon { font-size: 3rem; }
