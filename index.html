@@ -870,8 +870,10 @@
         // ========== SHARED SCORES (Firebase + localStorage fallback) ==========
         function formatDate(){ const d=new Date(); const mo=String(d.getMonth()+1).padStart(2,'0'); const da=String(d.getDate()).padStart(2,'0'); let h=d.getHours(); const ampm=h>=12?'PM':'AM'; h=h%12||12; const mi=String(d.getMinutes()).padStart(2,'0'); return `${mo}/${da} ${h}:${mi} ${ampm}`; }
         
+        let lastPlayedTimestamp = null;
         async function saveScore(m,t){
             const scoreData = {moves:m,time:t,date:formatDate(),timestamp:Date.now()};
+            lastPlayedTimestamp = scoreData.timestamp;
             // Save to Firebase (shared)
             try {
                 await scoresRef.add(scoreData);
@@ -927,11 +929,11 @@
             const rest = sorted.slice(3).sort((a,b)=>b.timestamp - a.timestamp);
             const podiumEmojis = ['🥇','🥈','🥉'];
             let html = '<div style="margin-bottom:12px;">';
-            top3.forEach((s,i)=>{ html += `<div class="ranking-item" style="background:rgba(255,215,0,0.1);border-bottom:2px solid #ffd700;font-weight:600;"><span>${podiumEmojis[i]} #${i+1} - ${s.date}</span><span>${s.time}s / ${s.moves} moves</span></div>`; });
+            top3.forEach((s,i)=>{ const isNew = s.timestamp === lastPlayedTimestamp; html += `<div class="ranking-item" style="background:${isNew?'rgba(255,105,180,0.2)':'rgba(255,215,0,0.1)'};border-bottom:2px solid ${isNew?'#ff69b4':'#ffd700'};font-weight:600;"><span>${isNew?'✨ ':''}${podiumEmojis[i]} #${i+1} - ${s.date}</span><span>${s.time}s / ${s.moves} moves${isNew?' ✨':''}</span></div>`; });
             html += '</div>';
             if(rest.length>0){
                 html += '<div style="font-size:0.8rem;color:#880e4f;margin-bottom:6px;">— Most Recent Plays —</div>';
-                rest.forEach((s)=>{ html += `<div class="ranking-item"><span>${s.date}</span><span>${s.time}s / ${s.moves} moves</span></div>`; });
+                rest.forEach((s)=>{ const isNew = s.timestamp === lastPlayedTimestamp; html += `<div class="ranking-item" style="${isNew?'background:rgba(255,105,180,0.15);border-left:3px solid #ff69b4;':''}"><span>${isNew?'✨ ':''}${s.date}</span><span>${s.time}s / ${s.moves} moves${isNew?' ✨':''}</span></div>`; });
             }
             rankList.innerHTML = html;
         }
