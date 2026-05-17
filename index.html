@@ -317,8 +317,8 @@
         .ranking-container { display:none; flex-direction:column; align-items:center; max-width:500px; width:100%; animation:slideIn 0.6s ease; }
         .ranking-container.active { display:flex; }
         .ranking-card { background:rgba(255,255,255,0.8); backdrop-filter:blur(20px); border-radius:24px; padding:30px; width:100%; text-align:center; }
-        .ranking-list { max-height:250px; overflow-y:auto; margin:20px 0; }
-        .ranking-item { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid rgba(194,24,91,0.1); color:#880e4f; }
+        .ranking-list { max-height:380px; overflow-y:auto; margin:20px 0; }
+        .ranking-item { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid rgba(194,24,91,0.1); color:#880e4f; font-size:0.9rem; }
         
         .cake-emoji { font-size:5rem; animation: cakeBounce 1.5s ease infinite; display: inline-block; }
         @keyframes cakeBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
@@ -520,6 +520,24 @@
         
         #musicControls { position: fixed; bottom: 20px; right: 80px; z-index: 200; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; padding: 8px 16px; display: flex; gap: 8px; }
         
+        /* Gallery Lightbox nav arrows */
+        .lb-arrow {
+            position:fixed; z-index:1001; top:50%; transform:translateY(-50%);
+            background:rgba(255,255,255,0.2); backdrop-filter:blur(4px);
+            border:none; color:white; font-size:2rem; width:50px; height:50px;
+            border-radius:50%; cursor:pointer; transition:0.3s;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:bold;
+        }
+        .lb-arrow:hover { background:rgba(255,255,255,0.4); transform:translateY(-50%) scale(1.1); }
+        .lb-arrow.prev { left:15px; }
+        .lb-arrow.next { right:15px; }
+        .lb-counter {
+            position:fixed; z-index:1001; bottom:30px; left:50%; transform:translateX(-50%);
+            background:rgba(0,0,0,0.5); color:white; padding:6px 16px; border-radius:20px;
+            font-size:0.9rem; font-family:'Poppins',sans-serif;
+        }
+        
         @media (max-width: 600px) {
             .rainbow-banner { font-size: 1.6rem; white-space: normal; width: 90%; top: 10%; }
             .portrait-card { width: clamp(120px, 34vw, 135px); height: clamp(135px, 38vw, 152px); }
@@ -531,6 +549,11 @@
             .slide-photo-wrap .zoom-icon { width: 22px; height: 22px; font-size: 0.65rem; bottom: 1px; right: 1px; }
             .card { padding: 30px 18px; }
             .slide-icon { font-size: 3rem; }
+            .ranking-list { max-height:300px; }
+            .ranking-item { font-size:0.78rem; padding:7px; }
+            .lb-arrow { width:40px; height:40px; font-size:1.5rem; }
+            .lb-arrow.prev { left:8px; }
+            .lb-arrow.next { right:8px; }
         }
     </style>
 </head>
@@ -547,26 +570,52 @@
     <div class="falling-container" id="fallingContainer"></div>
 
     <div class="main-content">
-        <div class="slide active" id="slide1"><div class="card"><div class="card-content"><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo1.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo1.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">✨</div><h2 class="slide-title" id="slide1Title">Simply Amazing</h2><p class="slide-text" id="slide1Text">You have a heart of gold and a spirit that shines so bright. <strong>Your kindness</strong> touches everyone around you. You are truly one of a kind!</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot active" data-slide="1"></div><div class="dot" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
+        <div class="slide active" id="slide1"><div class="card"><div class="card-content"><div style="font-family:'Pacifico',cursive;font-size:2.4rem;color:#c2185b;margin-bottom:8px;">🎂 Happy Birthday Jessica! 🎂</div><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo1.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo1.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">✨</div><h2 class="slide-title" id="slide1Title">Simply Amazing</h2><p class="slide-text" id="slide1Text">You have a heart of gold and a spirit that shines so bright. <strong>Your kindness</strong> touches everyone around you. You are truly one of a kind!</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot active" data-slide="1"></div><div class="dot" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         <div class="slide" id="slide2"><div class="card"><div class="card-content"><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo2.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo2.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">🌟</div><h2 class="slide-title" id="slide2Title">A True Role Model</h2><p class="slide-text" id="slide2Text">You inspire us every single day with your strength<strong>(madeira power)</strong>, grace, communication and determination. The way you handle challenges shows what true leadership looks like.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot active" data-slide="2"></div><div class="dot" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         <div class="slide" id="slide3"><div class="card"><div class="card-content"><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo3.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo3.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">💝</div><h2 class="slide-title" id="slide3Title">An Inspiring Presence</h2><p class="slide-text" id="slide3Text">You have a way of making everyone around you feel <strong>capable and valued</strong>. Thank you for your <strong>endless support</strong> and for believing in me — you've given me the <strong>confidence to grow</strong> and the space to become a <strong>better version of myself</strong>. It is a true privilege to work alongside someone as <strong>wonderful as you</strong>.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot active" data-slide="3"></div><div class="dot" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         <div class="slide" id="slide4"><div class="card"><div class="card-content"><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo4.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo4.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">👵💐</div><h2 class="slide-title" id="slide4Title">Kind and Thoughtful</h2><p class="slide-text" id="slide4Text">Working alongside you makes even the <strong>busiest shifts</strong> feel more manageable and meaningful. Your <strong>constant kindness</strong> and the <strong>thoughtful way</strong> you approach every task don't just get the job done—they make our workplace a <strong>better, warmer environment</strong> for everyone.</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot active" data-slide="4"></div><div class="dot" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         <div class="slide" id="slide5"><div class="card"><div class="card-content"><div class="slide-photo-wrap" onclick="openPhotoZoom('portrait/photo5.jpg'); event.stopPropagation();"><img class="slide-photo" src="portrait/photo5.jpg" alt=""><span class="zoom-icon">🔍</span></div><div class="slide-icon">💼</div><h2 class="slide-title" id="slide5Title">A Joyful Spirit</h2><p class="slide-text" id="slide5Text">Your <strong>positive energy</strong> is truly uplifting, and I wanted to let you know how much I value having a colleague who leads with such a <strong>hearty and genuine spirit</strong>. Thank you for being such an <strong>incredible part of the team</strong>!</p></div></div><div class="tap-hint"><span>✨ Tap or auto-slide ✨</span><span class="arrow">→</span></div><div class="progress-dots"><div class="dot visited" data-slide="1"></div><div class="dot visited" data-slide="2"></div><div class="dot visited" data-slide="3"></div><div class="dot visited" data-slide="4"></div><div class="dot active" data-slide="5"></div><div class="dot" data-slide="6"></div></div></div>
         
-        <div class="slide final-slide" id="slide6"><div class="card"><div class="card-content"><div class="slide-icon cake-emoji">🎂</div><h2 class="slide-title" id="slide6Title">Happy Birthday!</h2><div class="candle-container"><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div></div><div class="portrait-gallery" id="portraitGallery"></div><p class="final-wish" id="slide6Text">Wishing you the <strong>very best</strong> of everything! May your days be filled with <strong>joy, love, and countless blessings</strong>. 🎉🎈💐</p></div></div><div style="display:flex; gap:12px; margin-top:20px;"><button class="game-btn" onclick="showGame(); event.stopPropagation();">🎮 Play Game</button></div><div class="tap-hint"><span>✨ Infinite Love ✨</span><span class="arrow">🎂</span></div></div>
+        <div class="slide final-slide" id="slide6"><div class="card"><div class="card-content"><div class="slide-icon cake-emoji">🎂</div><h2 class="slide-title" id="slide6Title">Again Happy Happy Birthday!</h2><div class="candle-container"><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div><div class="candle"></div></div><div class="portrait-gallery" id="portraitGallery"></div><p class="final-wish" id="slide6Text">Wishing you the <strong>very best</strong> of everything! May your days be filled with <strong>joy, love, and countless blessings</strong>. 🎉🎈💐</p></div></div><div style="display:flex; gap:12px; margin-top:20px;"><button class="game-btn" onclick="showGame(); event.stopPropagation();">🎮 Play Game</button></div><div class="tap-hint"><span>✨ Infinite Love ✨</span><span class="arrow">🎂</span></div></div>
 
         <div class="game-container" id="gameContainer"><div class="game-card"><h2 class="game-title">Caring Match</h2><p class="game-subtitle">Match the caring actions for our elders! 💕</p><div class="game-stats"><div class="stat-box"><div class="stat-label">Moves</div><div class="stat-value" id="moveCount">0</div></div><div class="stat-box"><div class="stat-label">Matched</div><div class="stat-value" id="matchCount">0/6</div></div><div class="stat-box"><div class="stat-label">Time</div><div class="stat-value" id="timer">0s</div></div></div><div class="game-message" id="gameMessage">Find matching pairs!</div><div class="game-grid" id="gameGrid"></div><button class="game-btn" id="restartBtn" onclick="restartGame()">🔄 Restart Game</button></div></div>
         <div class="ranking-container" id="rankingContainer"><div class="ranking-card"><h2 class="game-title">Wall of Fame</h2><p class="game-subtitle">Fastest Caring Hands! 🏆</p><div class="ranking-list" id="rankingList"></div><button class="game-btn" onclick="continueToFinal()">Proceed to Birthday Surprise ✨</button></div></div>
     </div>
 
     <div class="game-win-overlay" id="gameWinOverlay"><div class="win-card"><div class="win-emoji">🎉</div><h3 class="win-title">Amazing!</h3><p class="win-text" id="winText">You matched all!</p><button class="game-btn" onclick="showRanking()">See Rankings</button></div></div>
-    <div class="lightbox" id="lightbox"><img id="lightboxImg" src=""></div>
+    
+    <!-- Gallery Lightbox with swipe -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-arrow prev" id="lbPrev" onclick="event.stopPropagation(); galleryPrev();">‹</button>
+        <img id="lightboxImg" src="" draggable="false">
+        <button class="lb-arrow next" id="lbNext" onclick="event.stopPropagation(); galleryNext();">›</button>
+        <div class="lb-counter" id="lbCounter"></div>
+    </div>
     
     <div class="auto-toggle-btn" id="autoToggleBtn">
         <span id="toggleIcon">⏸️</span> <span id="toggleText">Auto: OFF</span>
     </div>
     
     <div id="musicControls"><span id="musicIcon">🔇</span><input type="range" id="volumeSlider" min="0" max="100" value="35"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore-compat.js"></script>
+    <script>
+        // ========== FIREBASE INIT ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4pPpEZq6y9_-YBvE2BDY5lEuDMhxMqmI",
+            authDomain: "birthday-game-8ea0a.firebaseapp.com",
+            projectId: "birthday-game-8ea0a",
+            storageBucket: "birthday-game-8ea0a.firebasestorage.app",
+            messagingSenderId: "454963260261",
+            appId: "1:454963260261:web:6b377900d0d4f3066d8f8c",
+            measurementId: "G-S7KB603F87"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const scoresRef = db.collection('scores');
+    </script>
 
     <script>
         // ========== GLOBAL STATE ==========
@@ -575,6 +624,11 @@
         let autoSlideInterval = null;
         let autoSlideEnabled = false;
         let rainbowBanner = null;
+        
+        // Gallery lightbox state
+        let galleryPhotos = [];
+        let galleryIndex = 0;
+        let touchStartX = 0;
         
         // Music
         const music = document.getElementById('bgMusic');
@@ -670,10 +724,6 @@
                 }, s*40);
             }
             removeRainbowBanner();
-            rainbowBanner = document.createElement('div');
-            rainbowBanner.className = 'rainbow-banner';
-            rainbowBanner.innerHTML = '🎂 Happy Happy Birthday! 🎉';
-            document.body.appendChild(rainbowBanner);
         }
         
         const openingOverlay = document.getElementById('openingOverlay');
@@ -720,9 +770,11 @@
             const photoFiles = ['photo6.jpg', 'photo7.jpg', 'photo8.jpg'];
             const portraitFolder = 'portrait/';
             const captions = ['✨ Beautiful Memory ✨', '💖 Special Moment 💖', '🎀 Cherished Time 🎀'];
+            galleryPhotos = [];
             
             for(let i = 0; i < photoFiles.length; i++) {
                 const imgPath = portraitFolder + photoFiles[i];
+                galleryPhotos.push(imgPath);
                 const testImg = new Image();
                 const createCard = (src, isPlaceholder) => {
                     const card = document.createElement('div');
@@ -746,8 +798,8 @@
                         card.appendChild(zoomBadge);
                         card.addEventListener('click', (e) => {
                             e.stopPropagation();
-                            document.getElementById('lightboxImg').src = src;
-                            document.getElementById('lightbox').classList.add('active');
+                            galleryIndex = i;
+                            openGallery();
                         });
                     }
                     const caption = document.createElement('div');
@@ -767,6 +819,46 @@
             document.getElementById('lightbox').classList.add('active');
         }
         
+        // Gallery lightbox functions
+        function openGallery() {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            img.src = galleryPhotos[galleryIndex];
+            updateGalleryCounter();
+            lb.classList.add('active');
+        }
+        function updateGalleryCounter() {
+            document.getElementById('lbCounter').textContent = `${galleryIndex+1}/${galleryPhotos.length}`;
+        }
+        function galleryPrev() {
+            galleryIndex = (galleryIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
+            document.getElementById('lightboxImg').src = galleryPhotos[galleryIndex];
+            updateGalleryCounter();
+        }
+        function galleryNext() {
+            galleryIndex = (galleryIndex + 1) % galleryPhotos.length;
+            document.getElementById('lightboxImg').src = galleryPhotos[galleryIndex];
+            updateGalleryCounter();
+        }
+        
+        // Lightbox swipe + close
+        const lightbox = document.getElementById('lightbox');
+        lightbox.addEventListener('click', (e) => {
+            if(e.target === lightbox) lightbox.classList.remove('active');
+        });
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive:true});
+        lightbox.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].screenX - touchStartX;
+            if(Math.abs(diff) > 60) {
+                if(diff > 0) galleryPrev();
+                else galleryNext();
+            } else {
+                lightbox.classList.remove('active');
+            }
+        }, {passive:true});
+        
         // GAME LOGIC
         const gameItems = [{emoji:'👵',label:'Grandma'},{emoji:'👴',label:'Grandpa'},{emoji:'🍵',label:'Tea'},{emoji:'🤝',label:'Help'},{emoji:'💊',label:'Medicine'},{emoji:'📖',label:'Story'},{emoji:'👵',label:'Grandma'},{emoji:'👴',label:'Grandpa'},{emoji:'🍵',label:'Tea'},{emoji:'🤝',label:'Help'},{emoji:'💊',label:'Medicine'},{emoji:'📖',label:'Story'}];
         let flippedCards=[], matchedPairs=0, moves=0, gameTimer=0, timerInterval=null, gameStarted=false;
@@ -774,14 +866,82 @@
         function initGame(){ const grid=document.getElementById('gameGrid'); grid.innerHTML=''; const gameCards=shuffle([...gameItems]); flippedCards=[]; matchedPairs=0; moves=0; gameTimer=0; gameStarted=false; if(timerInterval) clearInterval(timerInterval); document.getElementById('moveCount').textContent='0'; document.getElementById('matchCount').textContent='0/6'; document.getElementById('timer').textContent='0s'; document.getElementById('gameMessage').textContent='Find matching caring pairs!'; gameCards.forEach((item,idx)=>{ const cell=document.createElement('div'); cell.className='game-cell'; cell.innerHTML=`<span>${item.emoji}</span><div class="cover">💕</div>`; cell.addEventListener('click',()=>handleCardClick(cell,item)); grid.appendChild(cell); }); }
         function startTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(()=>{ gameTimer++; document.getElementById('timer').textContent=gameTimer+'s'; },1000); }
         function handleCardClick(cell,item){ if(cell.classList.contains('revealed')||cell.classList.contains('matched')||flippedCards.length>=2) return; if(!gameStarted){ gameStarted=true; startTimer(); } cell.classList.add('revealed'); flippedCards.push({cell,item}); if(flippedCards.length===2){ moves++; document.getElementById('moveCount').textContent=moves; const [first,second]=flippedCards; if(first.item.label===second.item.label){ setTimeout(()=>{ first.cell.classList.replace('revealed','matched'); second.cell.classList.replace('revealed','matched'); matchedPairs++; document.getElementById('matchCount').textContent=matchedPairs+'/6'; flippedCards=[]; if(matchedPairs===6){ clearInterval(timerInterval); setTimeout(()=>{ document.getElementById('winText').innerHTML=`Matched in ${moves} moves and ${gameTimer}s!`; document.getElementById('gameWinOverlay').classList.add('active'); saveScore(moves,gameTimer); launchConfetti(); launchFireworks(); },300); } },400); } else { setTimeout(()=>{ first.cell.classList.add('wrong'); second.cell.classList.add('wrong'); setTimeout(()=>{ first.cell.classList.remove('revealed','wrong'); second.cell.classList.remove('revealed','wrong'); flippedCards=[]; },500); },500); } } }
-        function saveScore(m,t){ let scores=JSON.parse(localStorage.getItem('birthdayGameScores'))||[]; scores.push({moves:m,time:t,date:new Date().toLocaleTimeString()}); scores.sort((a,b)=>(a.time+a.moves)-(b.time+b.moves)); localStorage.setItem('birthdayGameScores',JSON.stringify(scores.slice(0,5))); }
+        
+        // ========== SHARED SCORES (Firebase + localStorage fallback) ==========
+        function formatDate(){ const d=new Date(); const mo=String(d.getMonth()+1).padStart(2,'0'); const da=String(d.getDate()).padStart(2,'0'); let h=d.getHours(); const ampm=h>=12?'PM':'AM'; h=h%12||12; const mi=String(d.getMinutes()).padStart(2,'0'); return `${mo}/${da} ${h}:${mi} ${ampm}`; }
+        
+        async function saveScore(m,t){
+            const scoreData = {moves:m,time:t,date:formatDate(),timestamp:Date.now()};
+            // Save to Firebase (shared)
+            try {
+                await scoresRef.add(scoreData);
+            } catch(e) {
+                console.log('Firebase save failed, saving locally:', e);
+                // Fallback to localStorage
+                let local = JSON.parse(localStorage.getItem('birthdayGameScores'))||[];
+                local.push(scoreData);
+                localStorage.setItem('birthdayGameScores',JSON.stringify(local));
+            }
+        }
+        
+        async function showRanking() {
+            document.getElementById('gameWinOverlay').classList.remove('active');
+            document.getElementById('gameContainer').classList.remove('active');
+            const rankContainer = document.getElementById('rankingContainer');
+            const rankList = document.getElementById('rankingList');
+            rankList.innerHTML = '<div style="text-align:center;color:#880e4f;padding:20px;">Loading scores...</div>';
+            rankContainer.classList.add('active');
+            stopAutoLoop();
+            
+            // Load from Firebase
+            let firebaseScores = [];
+            try {
+                const snap = await scoresRef.orderBy('timestamp','desc').get();
+                snap.forEach(doc => firebaseScores.push(doc.data()));
+            } catch(e) { console.log('Firebase load failed:', e); }
+            
+            // Load from localStorage (fallback)
+            let localScores = JSON.parse(localStorage.getItem('birthdayGameScores'))||[];
+            
+            // Combine: Firebase first, then localStorage (avoid duplicates by timestamp)
+            const seenTimestamps = new Set();
+            let allScores = [];
+            const addIfNew = (arr) => {
+                arr.forEach(s => {
+                    if(!seenTimestamps.has(s.timestamp)) {
+                        seenTimestamps.add(s.timestamp);
+                        allScores.push(s);
+                    }
+                });
+            };
+            addIfNew(firebaseScores);
+            addIfNew(localScores);
+            
+            if(allScores.length===0){
+                rankList.innerHTML = '<div class="ranking-item" style="justify-content:center;color:#c2185b;padding:20px;">No scores yet. Play the game first! 🎮</div>';
+                return;
+            }
+            
+            const sorted = [...allScores].sort((a,b)=>(a.time+a.moves)-(b.time+b.moves));
+            const top3 = sorted.slice(0, 3);
+            const rest = sorted.slice(3).sort((a,b)=>b.timestamp - a.timestamp);
+            const podiumEmojis = ['🥇','🥈','🥉'];
+            let html = '<div style="margin-bottom:12px;">';
+            top3.forEach((s,i)=>{ html += `<div class="ranking-item" style="background:rgba(255,215,0,0.1);border-bottom:2px solid #ffd700;font-weight:600;"><span>${podiumEmojis[i]} #${i+1} - ${s.date}</span><span>${s.time}s / ${s.moves} moves</span></div>`; });
+            html += '</div>';
+            if(rest.length>0){
+                html += '<div style="font-size:0.8rem;color:#880e4f;margin-bottom:6px;">— Most Recent Plays —</div>';
+                rest.forEach((s)=>{ html += `<div class="ranking-item"><span>${s.date}</span><span>${s.time}s / ${s.moves} moves</span></div>`; });
+            }
+            rankList.innerHTML = html;
+        }
+        
         function restartGame(){ if(timerInterval) clearInterval(timerInterval); initGame(); }
         function showGame() { stopAutoLoop(); if(isTransitioning) return; isTransitioning=true; document.querySelectorAll('.slide.active, .ranking-container.active').forEach(s=>s.classList.remove('active')); setTimeout(()=>{ document.getElementById('gameContainer').classList.add('active'); initGame(); isTransitioning=false; if(autoSlideEnabled) startAutoLoop(); },500); }
         function continueToFinal() { 
             document.getElementById('gameWinOverlay').classList.remove('active'); 
             document.getElementById('gameContainer').classList.remove('active'); 
             document.getElementById('rankingContainer').classList.remove('active'); 
-            // Directly show slide 6 without transition delay since we're coming from ranking
             removeRainbowBanner();
             document.querySelectorAll('.slide').forEach(s => s.classList.remove('active','exiting'));
             const slide6 = document.getElementById('slide6');
@@ -797,13 +957,12 @@
             launchFireworks(); launchConfetti(); loadPortraits();
             if(autoSlideEnabled) startAutoLoop(); 
         }
-        function showRanking() { document.getElementById('gameWinOverlay').classList.remove('active'); document.getElementById('gameContainer').classList.remove('active'); const rankContainer = document.getElementById('rankingContainer'); const rankList = document.getElementById('rankingList'); rankList.innerHTML = ''; let scores = JSON.parse(localStorage.getItem('birthdayGameScores'))||[]; scores.forEach((s,i)=>{ rankList.innerHTML += `<div class="ranking-item"><span>#${i+1} - ${s.date}</span> <span>${s.time}s / ${s.moves} moves</span></div>`; }); rankContainer.classList.add('active'); stopAutoLoop(); }
+        
         function launchFireworks(){ for(let i=0;i<12;i++){ setTimeout(()=>{ const x=Math.random()*window.innerWidth; const y=Math.random()*window.innerHeight*0.4; for(let j=0;j<35;j++){ const p=document.createElement('div'); p.style.position='fixed'; p.style.left=x+'px'; p.style.top=y+'px'; p.style.width='6px'; p.style.height='6px'; p.style.borderRadius='50%'; p.style.backgroundColor=['#ff6b9d','#f48fb1','#ffeb3b','#ff0000','#00ff00','#0000ff'][Math.floor(Math.random()*6)]; const angle=(Math.PI*2*j)/35; const dist=Math.random()*90+50; p.style.setProperty('--tx',Math.cos(angle)*dist+'px'); p.style.setProperty('--ty',Math.sin(angle)*dist+'px'); p.style.animation='fireworkExplode 1s ease-out forwards'; document.body.appendChild(p); setTimeout(()=>p.remove(),900); } },i*180); } }
         function launchConfetti(){ for(let i=0;i<120;i++){ const c=document.createElement('div'); c.className='confetti-piece'; c.style.left=Math.random()*100+'%'; c.style.top='-10px'; c.style.position='fixed'; c.style.width='10px'; c.style.height='10px'; c.style.background=['#ff6b9d','#fff','#ce93d8','#ffeb3b','#00ff99'][Math.floor(Math.random()*5)]; c.style.animation='confettiFall 3s ease-out forwards'; document.body.appendChild(c); setTimeout(()=>c.remove(),3000); } }
         const styleSheet = document.createElement("style"); styleSheet.textContent = ` .firework-particle { position:fixed; width:6px; height:6px; border-radius:50%; animation: fireworkExplode 1s ease-out forwards; } @keyframes fireworkExplode { 0% { transform: translate(0,0) scale(1); opacity:1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity:0; } } .confetti-piece { position:fixed; width:10px; height:10px; pointer-events:none; animation: confettiFall 3s ease-out forwards; } @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity:1; } 100% { transform: translateY(100vh) rotate(720deg); opacity:0; } } `; document.head.appendChild(styleSheet);
         document.querySelectorAll('.dot').forEach(dot=>{ dot.addEventListener('click',(e)=>{ e.stopPropagation(); let t=parseInt(dot.dataset.slide); if(t>=1 && t<=6) goToSlide(t); }); });
         window.restartGame = restartGame; window.continueToFinal = continueToFinal; window.showGame = showGame; window.showRanking = showRanking;
-        const lightbox = document.getElementById('lightbox'); lightbox.addEventListener('click',()=>lightbox.classList.remove('active'));
         for(let i=1;i<=6;i++){ const slide = document.getElementById(`slide${i}`); if(slide && i<=5) slide.addEventListener('click',(e)=>{ if(e.target.closest('.game-btn')||e.target.closest('.dot')||e.target.closest('.portrait-card')) return; removeRainbowBanner(); let next = i+1; if(next>6) next=1; goToSlide(next); }); else if(slide && i===6) slide.addEventListener('click',(e)=>{ if(e.target.closest('.game-btn')||e.target.closest('.dot')||e.target.closest('.portrait-card')) return; removeRainbowBanner(); goToSlide(1); }); }
         loadPortraits();
     </script>
