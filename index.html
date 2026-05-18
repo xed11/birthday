@@ -924,7 +924,7 @@
                 return;
             }
             
-            const sorted = [...allScores].sort((a,b)=>(a.time+a.moves)-(b.time+b.moves));
+            const sorted = [...allScores].sort((a,b)=>a.time - b.time);
             const top3 = sorted.slice(0, 3);
             const rest = sorted.slice(3).sort((a,b)=>b.timestamp - a.timestamp);
             const podiumEmojis = ['🥇','🥈','🥉'];
